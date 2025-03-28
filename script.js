@@ -6,11 +6,14 @@ const quotes = [
 
 const quoteElement = document.getElementById('quote');
 const generateBtn = document.getElementById('generate-btn');
-
+let lastIndex = -1;
 function generateRandomQuote() {
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  const randomQuote = quotes[randomIndex];
-  quoteElement.textContent = randomQuote;
+  let randomIndex;
+  do {
+    randomIndex = Math.floor(Math.random() * quotes.length);
+  } while (randomIndex === lastIndex);
+  lastIndex = randomIndex;
+  quoteElement.textContent = quotes[randomIndex];
 }
 
 generateBtn.addEventListener('click', generateRandomQuote);
