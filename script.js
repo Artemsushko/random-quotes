@@ -14,11 +14,15 @@ function generateRandomQuote() {
   if (quotes[currentIndex].isFavorite === undefined) {
     quotes[currentIndex].isFavorite = false;
   }
+  toggleFavoriteBtn.classList.remove('favorite', 'not-favorite');
   if (quotes[currentIndex].isFavorite) {
+    toggleFavoriteBtn.classList.add('favorite');
     toggleFavoriteBtn.textContent = 'Remove from favorite';
   } else {
+    toggleFavoriteBtn.classList.add('not-favorite');
     toggleFavoriteBtn.textContent = 'Add to favorite';
   }
+
   lastIndex = currentIndex;
   quoteElement.textContent = `"${quotes[currentIndex].text}"`;
   quoteAutor.textContent = quotes[currentIndex].author;
@@ -26,9 +30,13 @@ function generateRandomQuote() {
 
 function toggleFavorite() {
   quotes[currentIndex].isFavorite = !quotes[currentIndex].isFavorite;
+
+  toggleFavoriteBtn.classList.remove('favorite', 'not-favorite');
   if (quotes[currentIndex].isFavorite) {
+    toggleFavoriteBtn.classList.add('favorite');
     toggleFavoriteBtn.textContent = 'Remove from favorite';
   } else {
+    toggleFavoriteBtn.classList.add('not-favorite');
     toggleFavoriteBtn.textContent = 'Add to favorite';
   }
 }
