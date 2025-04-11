@@ -13,6 +13,10 @@ body {
   font-style: italic;
 }
 
+#favorite-text {
+  font-style: italic;
+}
+
 .btn {
   padding: 10px 20px;
   background-color: rgb(85, 85, 255);
@@ -26,29 +30,29 @@ body {
 
 .favorite-btn {
   padding: 10px 20px;
-  background-color: rgb(85, 85, 255);
   border: none;
   border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
   margin: 0 5px;
-  transition: transform 0.3s ease;
+  display: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .favorite-btn.not-favorite {
   background-color: rgb(0, 200, 0);
-  transition: transform 0.3s ease;
 }
+
 .favorite-btn.not-favorite:hover {
-  background-color: rgb(0, 81, 0);
+  background-color: rgb(0, 150, 0);
 }
 
 .favorite-btn.favorite {
   background-color: red;
-  transition: transform 0.3s ease;
 }
+
 .favorite-btn.favorite:hover {
-  background-color: rgb(180, 0, 0);
+  background-color: rgb(150, 0, 0);
 }
 
 button:hover {
@@ -56,6 +60,21 @@ button:hover {
   background-color: rgb(52, 52, 158);
 }
 
-#quoteAutor {
+.quoteAutor {
   font-weight: bold;
+}
+
+.favorite-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.favorite-card {
+  background-color: #fff;
+  color: black;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 10px;
+  width: 25%;
 }
