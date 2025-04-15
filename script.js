@@ -8,51 +8,56 @@ const favoriteContainer = document.getElementById('favorite-container');
 let lastIndex = -1;
 let currentIndex;
 
-function changeColorOfMakeFavoriteBtn() {
-  toggleFavoriteBtn.classList.remove('favorite', 'not-favorite');
-  if (quotes[currentIndex].isFavorite) {
-    toggleFavoriteBtn.classList.add('favorite');
-    toggleFavoriteBtn.textContent = 'Remove from favorite';
-  } else {
-    toggleFavoriteBtn.classList.add('not-favorite');
-    toggleFavoriteBtn.textContent = 'Add to favorite';
-  }
+function changeFavoriteBtnColor(isFavorite) {
+  toggleFavoriteBtn.classList.toggle('fas', isFavorite);
+  toggleFavoriteBtn.classList.toggle('far', !isFavorite);
+}
+
+function showFavoriteCard(quote) {
+  const { text, author } = quote;
+  const favoriteCard = document.createElement('div');
+  favoriteCard.classList.add('favorite-card');
+  favoriteCard.innerHTML = `<p id="favorite-text">"${text}"</p>
+  <p class=quoteAutor>${author}</p>`;
+  favoriteContainer.appendChild(favoriteCard);
+}
+
+function removeFavoriteCard(quoteText) {
+  const favoriteCards = document.querySelectorAll('.favorite-card');
+  favoriteCards.forEach((card) => {
+    if (card.textContent.includes(quoteText)) {
+      card.remove();
+    }
+  });
 }
 
 function generateRandomQuote() {
   do {
     currentIndex = Math.floor(Math.random() * quotes.length);
   } while (currentIndex === lastIndex);
-  if (quotes[currentIndex].isFavorite === undefined) {
-    quotes[currentIndex].isFavorite = false;
+  let { text, author, isFavorite } = quotes[currentIndex];
+  if (isFavorite === undefined) {
+    isFavorite = false;
   }
 
-  changeColorOfMakeFavoriteBtn();
+  changeFavoriteBtnColor(isFavorite);
 
   lastIndex = currentIndex;
-  quoteElement.textContent = `"${quotes[currentIndex].text}"`;
-  quoteAutor.textContent = quotes[currentIndex].author;
-
+  quoteElement.textContent = `"${text}"`;
+  quoteAutor.textContent = author;
   toggleFavoriteBtn.style.display = 'inline-block';
 }
 
 function toggleFavorite() {
-  quotes[currentIndex].isFavorite = !quotes[currentIndex].isFavorite;
+  const currentQuote = quotes[currentIndex];
+  currentQuote.isFavorite = !currentQuote.isFavorite;
 
-  changeColorOfMakeFavoriteBtn();
-  if (quotes[currentIndex].isFavorite) {
-    const favoriteCard = document.createElement('div');
-    favoriteCard.classList.add('favorite-card');
-    favoriteCard.innerHTML = `<p id="favorite-text">"${quotes[currentIndex].text}"</p>
-    <p class=quoteAutor>${quotes[currentIndex].author}</p>`;
-    favoriteContainer.appendChild(favoriteCard);
+  changeFavoriteBtnColor(currentQuote.isFavorite);
+
+  if (currentQuote.isFavorite) {
+    showFavoriteCard(currentQuote);
   } else {
-    const favoriteCards = document.querySelectorAll('.favorite-card');
-    favoriteCards.forEach((card) => {
-      if (card.textContent.includes(quotes[currentIndex].text)) {
-        card.remove();
-      }
-    });
+    removeFavoriteCard(currentQuote.text);
   }
 }
 

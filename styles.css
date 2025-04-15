@@ -9,12 +9,17 @@ body {
   text-align: center;
   margin: 50px auto;
 }
+
 #quoteElement {
   font-style: italic;
 }
 
 #favorite-text {
   font-style: italic;
+}
+
+.quoteAutor {
+  font-weight: bold;
 }
 
 .btn {
@@ -28,40 +33,9 @@ body {
   transition: transform 0.3s ease;
 }
 
-.favorite-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  margin: 0 5px;
-  display: none;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.favorite-btn.not-favorite {
-  background-color: rgb(0, 200, 0);
-}
-
-.favorite-btn.not-favorite:hover {
-  background-color: rgb(0, 150, 0);
-}
-
-.favorite-btn.favorite {
-  background-color: red;
-}
-
-.favorite-btn.favorite:hover {
-  background-color: rgb(150, 0, 0);
-}
-
 button:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   background-color: rgb(52, 52, 158);
-}
-
-.quoteAutor {
-  font-weight: bold;
 }
 
 .favorite-container {
@@ -77,4 +51,18 @@ button:hover {
   padding: 10px 20px;
   margin: 10px;
   width: 25%;
+}
+
+.heart-icon {
+  color: red;
+  display: none;
+  margin: 0 5px;
+  font-size: 25px;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: transform 0.25s ease;
+}
+
+.heart-icon:hover {
+  transform: scale(1.2);
 }

@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
     <link rel="stylesheet" href="styles.css" />
     <title>Random Quotes</title>
   </head>
@@ -14,9 +19,7 @@
       </p>
       <p id="quoteAutor" class="quoteAutor"></p>
       <button id="quoteBtn" class="btn">Random Quote</button>
-      <button id="favorite-btn" class="favorite-btn not-favorite">
-        Make it favorite
-      </button>
+      <i class="far fa-heart heart-icon" id="favorite-btn"></i>
     </div>
     <div id="favorite-container" class="favorite-container"></div>
     <script type="module" src="script.js"></script>
