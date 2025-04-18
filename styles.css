@@ -33,6 +33,23 @@ body {
   transition: transform 0.3s ease;
 }
 
+.close-btn {
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+  color: rgb(80, 80, 80);
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  background-color: #fff;
+  padding: 0 5px;
+  border-radius: 50%;
+}
+
+.close-btn:hover {
+  color: black;
+  background-color: rgb(178, 178, 178);
+}
+
 button:hover {
   transform: scale(1.05);
   background-color: rgb(52, 52, 158);
