@@ -10,12 +10,12 @@ body {
   margin: 50px auto;
 }
 
-#quoteElement {
+.quote {
   font-style: italic;
 }
-
-#favorite-text {
-  font-style: italic;
+.quote::before,
+.quote::after {
+  content: '"';
 }
 
 .quoteAutor {

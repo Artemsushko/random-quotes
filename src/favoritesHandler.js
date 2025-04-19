@@ -1,6 +1,10 @@
-function changeFavoriteBtnColor(isFavorite, btn) {
+function toggleFavoriteIcon(isFavorite, btn) {
   btn.classList.toggle('fas', isFavorite);
   btn.classList.toggle('far', !isFavorite);
+}
+
+function showToggleFavoriteBtn(btn) {
+  btn.style.display = 'inline-block';
 }
 
 function showFavoriteCard(quote, container, btn) {
@@ -9,15 +13,22 @@ function showFavoriteCard(quote, container, btn) {
   favoriteCard.classList.add('favorite-card');
   favoriteCard.innerHTML = `
     <span class="close-btn">&times;</span>
-    <p id="favorite-text">"${text}"</p>
+    <p class="quote">${text}</p>
     <p class="quoteAutor">${author}</p>
   `;
-  favoriteCard.querySelector('.close-btn').addEventListener('click', () => {
-    favoriteCard.remove();
-    quote.isFavorite = false;
-    changeFavoriteBtnColor(false, btn);
-  });
+  closeFavoriteCard(favoriteCard, quote, btn);
   container.appendChild(favoriteCard);
+}
+
+function closeFavoriteCard(card, quote, btn) {
+  card.querySelector('.close-btn').addEventListener('click', () => {
+    card.remove();
+    quote.isFavorite = false;
+    const currentQuoteElement = document.getElementById('quoteElement');
+    if (currentQuoteElement.textContent === quote.text) {
+      toggleFavoriteIcon(false, btn);
+    }
+  });
 }
 
 function removeFavoriteCard(quoteText) {
@@ -29,4 +40,9 @@ function removeFavoriteCard(quoteText) {
   });
 }
 
-export { changeFavoriteBtnColor, removeFavoriteCard, showFavoriteCard };
+export {
+  toggleFavoriteIcon,
+  removeFavoriteCard,
+  showFavoriteCard,
+  showToggleFavoriteBtn,
+};
