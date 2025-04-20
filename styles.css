@@ -18,7 +18,7 @@ body {
   content: '"';
 }
 
-.quoteAutor {
+.quoteAuthor {
   font-weight: bold;
 }
 
@@ -31,6 +31,16 @@ body {
   font-size: 16px;
   margin: 0 5px;
   transition: transform 0.3s ease;
+}
+
+#removeAllCardsBtn {
+  display: none;
+  font-weight: 900;
+  background-color: rgb(190, 0, 0);
+  transition: transform 0.3s ease;
+}
+#removeAllCardsBtn:hover {
+  background-color: rgb(150, 0, 0);
 }
 
 .close-btn {
