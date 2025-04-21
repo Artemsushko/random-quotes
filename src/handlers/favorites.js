@@ -1,5 +1,5 @@
-import { currentQuote } from '../index.js';
-import quotes from './quotes.js';
+import { currentQuote } from '../../index.js';
+import quotes from '../data/quotes.js';
 
 const toggleFavoriteBtn = document.getElementById('favorite-btn');
 const removeAllCardsBtn = document.getElementById('removeAllCardsBtn');
@@ -12,34 +12,36 @@ function removeAllCards() {
   const favoriteCards = document.querySelectorAll('.favorite-card');
   favoriteCards.forEach((card) => card.remove());
   quotes.forEach((quote) => (quote.isFavorite = false));
-  toggleFavoriteIcon(false);
+  toggleFavoriteIcon(false, toggleFavoriteBtn);
 
   updateRemoveAllBtnVisibility();
 }
 
 function toggleFavorite() {
   currentQuote.isFavorite = !currentQuote.isFavorite;
-  toggleFavoriteIcon(currentQuote.isFavorite);
-  showOrRemoveFavoriteCard();
+  toggleFavoriteIcon(currentQuote.isFavorite, toggleFavoriteBtn);
+  showOrRemoveFavoriteCard(currentQuote, toggleFavoriteBtn);
   updateRemoveAllBtnVisibility();
 }
 
-function showOrRemoveFavoriteCard() {
+function toggleFavoriteIcon(isFavorite, btn) {
+  const btnComputedStyle = window.getComputedStyle(toggleFavoriteBtn);
+  if (btnComputedStyle.display === 'none') {
+    btn.style.display = 'inline-block';
+  }
+  btn.classList.add('pop');
+  setTimeout(() => btn.classList.remove('pop'), 300);
+  btn.classList.toggle('fas', isFavorite);
+  btn.classList.toggle('far', !isFavorite);
+}
+
+function showOrRemoveFavoriteCard(currentQuote, btn) {
   currentQuote.isFavorite
-    ? showFavoriteCard(currentQuote)
+    ? showFavoriteCard(currentQuote, btn)
     : removeFavoriteCard(currentQuote.text);
 }
 
-function toggleFavoriteIcon(isFavorite) {
-  const btnComputedStyle = window.getComputedStyle(toggleFavoriteBtn);
-  if (btnComputedStyle.display === 'none') {
-    toggleFavoriteBtn.style.display = 'inline-block';
-  }
-  toggleFavoriteBtn.classList.toggle('fas', isFavorite);
-  toggleFavoriteBtn.classList.toggle('far', !isFavorite);
-}
-
-function showFavoriteCard(quote) {
+function showFavoriteCard(quote, btn) {
   const { text, author } = quote;
   const favoriteCard = document.createElement('div');
   favoriteCard.classList.add('favorite-card');
@@ -54,7 +56,7 @@ function showFavoriteCard(quote) {
 
     const currentQuoteElement = document.getElementById('quoteElement');
     if (currentQuoteElement.textContent === quote.text) {
-      toggleFavoriteIcon(false);
+      toggleFavoriteIcon(false, btn);
     }
     updateRemoveAllBtnVisibility();
   });
@@ -75,4 +77,4 @@ function updateRemoveAllBtnVisibility() {
   removeAllCardsBtn.style.display = hasFavorites ? 'inline-block' : 'none';
 }
 
-export { toggleFavoriteIcon };
+export { toggleFavoriteIcon, toggleFavorite };
