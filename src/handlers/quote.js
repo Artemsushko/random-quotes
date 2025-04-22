@@ -1,15 +1,12 @@
-import { toggleFavoriteIcon, toggleFavorite } from './favorites.js';
+import { toggleFavoriteIcon } from './favorites.js';
 import { generateRandomInt } from '../utils.js';
-
-const toggleFavoriteBtn = document.getElementById('favorite-btn');
-toggleFavoriteBtn.addEventListener('click', toggleFavorite);
 
 let lastIndex = -1;
 
-function handleQuote(quotes, changeCurrentQuote) {
+function handleQuote(quotes, changeCurrentQuote, btn) {
   const randomQuote = generateRandomQuote(quotes);
   changeCurrentQuote(randomQuote);
-  displayQuote(randomQuote, toggleFavoriteBtn);
+  displayQuote(randomQuote, btn);
 }
 
 function generateRandomQuote(quotes) {
