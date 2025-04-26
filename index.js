@@ -13,21 +13,15 @@ removeAllCardsBtn.addEventListener('click', () => removeAllCards(quotes));
 
 const generateBtn = document.getElementById('quoteBtn');
 generateBtn.addEventListener('click', () =>
-  handleQuote(quotes, changeCurrentQuote, toggleFavoriteBtn)
+  handleQuote(quotes, changeCurrentQuote)
 );
 
 const favoriteContainer = document.getElementById('favorite-container');
 
 let currentQuote = null;
 setIdsToQuotes(quotes);
-console.log(quotes);
 function changeCurrentQuote(quote) {
   currentQuote = quote;
 }
 
-export {
-  currentQuote,
-  toggleFavoriteBtn,
-  removeAllCardsBtn,
-  favoriteContainer,
-};
+export { toggleFavoriteBtn, removeAllCardsBtn, favoriteContainer };
