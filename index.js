@@ -3,6 +3,13 @@ import { setIdsToQuotes } from './src/utils.js';
 import { handleQuote } from './src/handlers/quote.js';
 import { toggleFavorite, removeAllCards } from './src/handlers/favorites.js';
 
+const themeToggle = document.getElementById('theme-toggle');
+
+themeToggle.addEventListener('change', () => {
+  document.body.classList.toggle('body-dark');
+  document.body.classList.toggle('body-light');
+});
+
 const toggleFavoriteBtn = document.getElementById('favorite-btn');
 toggleFavoriteBtn.addEventListener('click', () =>
   toggleFavorite(currentQuote, quotes, favoriteContainer)

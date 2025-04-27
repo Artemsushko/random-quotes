@@ -11,7 +11,16 @@
     <link rel="stylesheet" href="styles.css" />
     <title>Random Quotes</title>
   </head>
-  <body>
+  <body class="body-dark">
+    <div class="theme-switch-wrapper">
+      <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle" />
+        <span class="slider">
+          <i class="fa-regular fa-moon icon"></i>
+          <i class="fas fa-sun icon"></i>
+        </span>
+      </label>
+    </div>
     <div class="container">
       <h1>Random Quotes</h1>
       <div id="current-quote">
@@ -19,7 +28,7 @@
         <p id="quote-author" class="quote-author"></p>
         <button id="quoteBtn" class="btn btn-primary">Random Quote</button>
         <i class="far fa-heart heart-icon" id="favorite-btn"></i>
-        <button id="removeAllCardsBtn" class="btn">&times;</button>
+        <button id="removeAllCardsBtn" class="btn fas fa-trash"></button>
       </div>
     </div>
     <div id="favorite-container" class="favorite-container"></div>

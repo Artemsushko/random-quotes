@@ -47,22 +47,27 @@ function showFavoriteCard(quote, quotes, container) {
   const { text, author, id } = quote;
   const favoriteCard = document.createElement('div');
   favoriteCard.classList.add('favorite-card');
-  favoriteCard.innerHTML = `
-  <span class="close-btn">&times;</span>
-  <p class="quote">${text}</p>
-  <p class="quote-author">${author}</p>
-  `;
-  favoriteCard.dataset.quoteId = id;
+  favoriteCard.dataset.favoriteQuoteId = id;
+  const closeBtn = document.createElement('span');
+  closeBtn.classList.add('close-btn');
+  closeBtn.textContent = '×';
+  const quoteText = document.createElement('p');
+  quoteText.classList.add('quote');
+  quoteText.textContent = text;
+  const quoteAuthor = document.createElement('p');
+  quoteAuthor.classList.add('quote-author');
+  quoteAuthor.textContent = author;
+  favoriteCard.append(closeBtn, quoteText, quoteAuthor);
 
   favoriteCard
     .querySelector('.close-btn')
     .addEventListener('click', () => removeFavoriteQuote(quote, quotes));
 
-  container.appendChild(favoriteCard);
+  container.append(favoriteCard);
 }
 
 function removeFavoriteCard(quoteId) {
-  const card = document.querySelector(`[data-quote-id="${quoteId}"]`);
+  const card = document.querySelector(`[data-favorite-quote-id="${quoteId}"]`);
   if (card) {
     card.remove();
   }
