@@ -2,13 +2,11 @@ import quotes from './src/data/quotes.js';
 import { setIdsToQuotes } from './src/utils.js';
 import { handleQuote } from './src/handlers/quote.js';
 import { toggleFavorite, removeAllCards } from './src/handlers/favorites.js';
+import { applySavedTheme, handleThemeToggle } from './src/handlers/theme.js';
 
 const themeToggle = document.getElementById('theme-toggle');
-
-themeToggle.addEventListener('change', () => {
-  document.body.classList.toggle('body-dark');
-  document.body.classList.toggle('body-light');
-});
+applySavedTheme(themeToggle);
+handleThemeToggle(themeToggle);
 
 const toggleFavoriteBtn = document.getElementById('favorite-btn');
 toggleFavoriteBtn.addEventListener('click', () =>
@@ -27,8 +25,23 @@ const favoriteContainer = document.getElementById('favorite-container');
 
 let currentQuote = null;
 setIdsToQuotes(quotes);
+
 function changeCurrentQuote(quote) {
   currentQuote = quote;
+  localStorage.setItem('currentQuote', JSON.stringify(currentQuote));
+}
+
+const saved = localStorage.getItem('currentQuote');
+if (saved) {
+  try {
+    const savedQuote = JSON.parse(saved);
+    handleQuote([savedQuote], changeCurrentQuote);
+  } catch (error) {
+    console.error('Error when reading currentQuote from localStorage', error);
+    handleQuote(quotes, changeCurrentQuote);
+  }
+} else {
+  handleQuote(quotes, changeCurrentQuote);
 }
 
 export { toggleFavoriteBtn, removeAllCardsBtn, favoriteContainer };
