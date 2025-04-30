@@ -1,5 +1,5 @@
 import { toggleFavoriteIcon } from './favorites.js';
-import { generateRandomInt } from '../utils.js';
+import { generateRandomInt } from '../utils/math.js';
 
 let lastIndex = -1;
 

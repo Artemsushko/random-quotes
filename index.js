@@ -1,9 +1,14 @@
 import quotes from './src/data/quotes.js';
-import { setIdsToQuotes } from './src/utils.js';
+import { setIdsToQuotes } from './src/utils/math.js';
 import { handleQuote } from './src/handlers/quote.js';
 import { toggleFavorite, removeAllCards } from './src/handlers/favorites.js';
 import { applySavedTheme, handleThemeToggle } from './src/handlers/theme.js';
-
+import {
+  setItem,
+  clear,
+  getItem,
+  removeItem,
+} from './src/utils/localStorage.js';
 const themeToggle = document.getElementById('theme-toggle');
 applySavedTheme(themeToggle);
 handleThemeToggle(themeToggle);
@@ -28,7 +33,7 @@ setIdsToQuotes(quotes);
 
 function changeCurrentQuote(quote) {
   currentQuote = quote;
-  localStorage.setItem('currentQuote', JSON.stringify(currentQuote));
+  setItem('currentQuote', currentQuote);
 }
 
 const saved = localStorage.getItem('currentQuote');

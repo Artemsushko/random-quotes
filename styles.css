@@ -3,15 +3,6 @@ body {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-html.body-dark {
-  background-color: #2c3e50;
-  color: aliceblue;
-}
-
-html.body-light {
-  background-color: #e6e6fa;
-  color: #111;
-}
 .body-dark {
   background-color: #2c3e50;
   color: aliceblue;
