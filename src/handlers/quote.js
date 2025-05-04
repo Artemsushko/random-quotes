@@ -30,4 +30,4 @@ function displayQuote(quote) {
   toggleFavoriteIcon(isFavorite);
 }
 
-export { handleQuote };
+export { handleQuote, displayQuote };

@@ -1,23 +1,27 @@
 import {
   toggleFavoriteBtn as btn,
   removeAllCardsBtn as removeBtn,
+  changeCurrentQuote,
 } from '../../index.js';
+import { setItem, getItem, clear, removeItem } from '../utils/localStorage.js';
 
-function removeAllCards(quotes) {
+function removeAllCards(quotes, currentQuote) {
   const favoriteCards = document.querySelectorAll('.favorite-card');
   favoriteCards.forEach((card) => card.remove());
   quotes.forEach((quote) => (quote.isFavorite = false));
   toggleFavoriteIcon(false);
-
+  setItem('currentQuote', currentQuote);
+  clear();
   updateRemoveAllCardsVisibility(quotes);
 }
 
 function toggleFavorite(quote, quotes, container) {
   quote.isFavorite = !quote.isFavorite;
   toggleFavoriteIcon(quote.isFavorite);
+  changeCurrentQuote(quote);
   quote.isFavorite
     ? showFavoriteCard(quote, quotes, container)
-    : removeFavoriteCard(quote.id);
+    : removeFavoriteCard(quote, quotes);
   updateRemoveAllCardsVisibility(quotes);
 }
 
@@ -31,20 +35,12 @@ function toggleFavoriteIcon(isFavorite) {
   btn.classList.toggle('far', !isFavorite);
 }
 
-function removeFavoriteQuote(quote, quotes) {
-  removeFavoriteCard(quote.id);
-  popFavoriteIcon();
-  quote.isFavorite = false;
-  const currentQuote = document.getElementById('current-quote');
-  const currentQuoteId = currentQuote.dataset.currentQuoteId;
-  if (quote.id === currentQuoteId) {
-    toggleFavoriteIcon(quote.isFavorite);
-  }
-  updateRemoveAllCardsVisibility(quotes);
-}
-
-function showFavoriteCard(quote, quotes, container) {
+function createFavoriteCard(quote, quotes, container) {
   const { text, author, id } = quote;
+  const existingCard = document.querySelector(
+    `[data-favorite-quote-id="${id}"]`
+  );
+  if (existingCard) return;
   const favoriteCard = document.createElement('div');
   favoriteCard.classList.add('favorite-card');
   favoriteCard.dataset.favoriteQuoteId = id;
@@ -58,19 +54,47 @@ function showFavoriteCard(quote, quotes, container) {
   quoteAuthor.classList.add('quote-author');
   quoteAuthor.textContent = author;
   favoriteCard.append(closeBtn, quoteText, quoteAuthor);
-
   favoriteCard
     .querySelector('.close-btn')
-    .addEventListener('click', () => removeFavoriteQuote(quote, quotes));
-
+    .addEventListener('click', () => removeFavoriteCard(quote, quotes));
   container.append(favoriteCard);
+
+  const storedFavorites = getItem('savedCards') || [];
+  const alreadyExists = storedFavorites.some((q) => q.id === quote.id);
+  if (!alreadyExists) {
+    storedFavorites.push({ id, text, author });
+    setItem('savedCards', storedFavorites);
+  }
 }
 
-function removeFavoriteCard(quoteId) {
-  const card = document.querySelector(`[data-favorite-quote-id="${quoteId}"]`);
+function showFavoriteCard(quote, quotes, container) {
+  createFavoriteCard(quote, quotes, container);
+}
+
+function removeFavoriteCard(quote, quotes) {
+  const { id } = quote;
+  const card = document.querySelector(`[data-favorite-quote-id="${id}"]`);
+  const currentQuote = document.getElementById('current-quote');
+  const currentQuoteId = currentQuote.dataset.currentQuoteId;
+  quote.isFavorite = false;
+  if (id === currentQuoteId) {
+    changeCurrentQuote(quote);
+    toggleFavoriteIcon(false);
+  }
   if (card) {
     card.remove();
   }
+  popFavoriteIcon();
+  const storedFavorites = getItem('savedCards') || [];
+  const updatedFavorites = storedFavorites.filter(
+    (card) => card.id !== quote.id
+  );
+  setItem('savedCards', updatedFavorites);
+  const quoteInArray = quotes.find((q) => q.id === quote.id);
+  if (quoteInArray) {
+    quoteInArray.isFavorite = false;
+  }
+  updateRemoveAllCardsVisibility(quotes);
 }
 
 function popFavoriteIcon() {
@@ -83,4 +107,10 @@ function updateRemoveAllCardsVisibility(quotes) {
   removeBtn.style.display = hasFavorites ? 'inline-block' : 'none';
 }
 
-export { toggleFavoriteIcon, toggleFavorite, removeAllCards };
+export {
+  toggleFavoriteIcon,
+  toggleFavorite,
+  removeAllCards,
+  showFavoriteCard,
+  updateRemoveAllCardsVisibility,
+};
