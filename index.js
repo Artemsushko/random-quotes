@@ -13,22 +13,28 @@ import {
   getItem,
   removeItem,
 } from './src/utils/localStorage.js';
+
+const newQuotes = quotes.map((quote) => ({
+  ...quote,
+  isFavorite: false,
+}));
+
 const themeToggle = document.getElementById('theme-toggle');
 applySavedTheme(themeToggle);
 handleThemeToggle(themeToggle);
 
 const toggleFavoriteBtn = document.getElementById('favorite-btn');
 toggleFavoriteBtn.addEventListener('click', () =>
-  toggleFavorite(currentQuote, quotes, favoriteContainer)
+  toggleFavorite(currentQuote, newQuotes, favoriteContainer)
 );
 
 const removeAllCardsBtn = document.getElementById('removeAllCardsBtn');
-removeAllCardsBtn.addEventListener('click', () => removeAllCards(quotes));
+removeAllCardsBtn.addEventListener('click', () => removeAllCards(newQuotes));
 
 const generateBtn = document.getElementById('quoteBtn');
-generateBtn.addEventListener('click', () =>
-  handleQuote(quotes, changeCurrentQuote)
-);
+generateBtn.addEventListener('click', () => {
+  handleQuote(newQuotes, changeCurrentQuote);
+});
 
 const favoriteContainer = document.getElementById('favorite-container');
 
@@ -43,22 +49,31 @@ function init() {
   const savedQuote = getItem('currentQuote');
   if (savedQuote) {
     try {
-      const quoteFromList = quotes.find((quote) => quote.id === savedQuote.id);
+      const quoteFromList = newQuotes.find(
+        (quote) => quote.id === savedQuote.id
+      );
       if (!quoteFromList) {
-        throw new Error('Saved quote not found in quotes array');
+        throw new Error('Saved quote not found in array');
       }
       quoteFromList.isFavorite = savedQuote.isFavorite;
       handleQuote([quoteFromList], changeCurrentQuote);
     } catch (error) {
       console.error('Error when reading currentQuote from localStorage', error);
-      handleQuote(quotes, changeCurrentQuote);
+      handleQuote(newQuotes, changeCurrentQuote);
     }
   }
-  const savedCards = getItem('savedCards') || [];
-  savedCards.forEach((quote) => {
-    showFavoriteCard(quote, quotes, favoriteContainer);
+
+  // Восстановление избранных цитат из localStorage
+  const savedFavoriteQuotes = getItem('favoriteQuotes') || [];
+  savedFavoriteQuotes.forEach((quote) => {
+    const quoteInArray = newQuotes.find((q) => q.id === quote.id);
+    if (quoteInArray) {
+      quoteInArray.isFavorite = true; // Восстанавливаем состояние избранного
+      showFavoriteCard(quoteInArray, newQuotes, favoriteContainer); // Показываем карточку
+    }
   });
-  updateRemoveAllCardsVisibility(quotes);
+
+  updateRemoveAllCardsVisibility(newQuotes);
 }
 
 window.addEventListener('load', init);
